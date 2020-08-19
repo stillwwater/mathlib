@@ -31,10 +31,7 @@ namespace mathf {
 // intergers. Uses a single 64bit integer for the state so it is cheap
 // to copy this struct.
 struct Xorshift64 {
-    union {
-        uint64_t state;
-        uint32_t state32[2];
-    };
+    uint64_t state;
 
     // Seed value chosen completly at random
     Xorshift64(uint64_t seed = 5);
@@ -191,14 +188,17 @@ inline float4 Xorshift64::rand4(const float4 &a, const float4 &b) {
 
 inline float2 Xorshift64::in_unit_circle() {
     for (;;) {
-        float2 r = rand2();
+        float2 r{randf(-1.0f, 1.0f),
+                 randf(-1.0f, 1.0f)};
         if (r.length_sqr() < 1.0f) return r;
     }
 }
 
 inline float3 Xorshift64::in_unit_sphere() {
     for (;;) {
-        float3 r = rand3();
+        float3 r{randf(-1.0f, 1.0f),
+                 randf(-1.0f, 1.0f),
+                 randf(-1.0f, 1.0f)};
         if (r.length_sqr() < 1.0f) return r;
     }
 }
